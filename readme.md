@@ -1,4 +1,4 @@
-# react-boilerplate-default
+# react-boilerplate-team
 
 ## Customization
 All changes are recommended in the `.env` file

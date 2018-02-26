@@ -1,5 +1,6 @@
 {
-  "name": "react-boilerplate-default",
+  "name": "react-boilerplate-team",
+  "description": "React boilerplate for teamwork, with max castomization",
   "version": "1.0.0",
   "repository": "https://github.com/eugene-gavriloff/react-boilerplate-default",
   "author": "Eugene Gavrilov <eg_dev@mail.ru>",
