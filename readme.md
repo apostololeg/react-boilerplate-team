@@ -2,6 +2,7 @@
 
 ## Customization
 All changes are recommended in the `.env` file
+
 If you need customize `.editorconfig` on local machine, create `.editorconfig` file in `./src` folder
 
 ## Code Style Guide
