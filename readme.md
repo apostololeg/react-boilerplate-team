@@ -23,12 +23,22 @@ npm run build
 yarn build
 ```
 
-### develop
+### develop:
+
+- #### watching
 ```bash
-npm start
+npm run watch
 # or
-yarn start
+yarn watch
 ```
+
+- #### serve
+```bash
+npm run serve
+# or
+yarn serve
+```
+
 ### format
 ```bash
 npm run prettier
@@ -40,7 +50,7 @@ yarn prettier
 
 ### Styling:
 - [PostCSS](http://postcss.org/)
-- [SugarSS](https://github.com/postcss/sugarss)
+- [Stylus](http://stylus-lang.com/)
 
 ### Coding:
 - [decko](https://github.com/developit/decko)
