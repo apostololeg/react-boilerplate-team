@@ -4,17 +4,60 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const {
   NODE_ENV,
-  APP_TITLE,
-  PAGE_LANG
+  USE_HTML,
+  CSS_MODULES
 } = require('./tools/constants');
 
 const {
   projectPath,
-  assetsPath,
   modulesPath,
   buildPath,
   rootPath
 } = require('./tools/paths');
+
+// Castomize plugins
+const variablePlugins = [];
+
+if (USE_HTML === 'true' || USE_HTML === true) {
+  const { APP_TITLE, PAGE_LANG } = require('./tools/constants');
+  const { assetsPath } = require('./tools/paths');
+
+  variablePlugins.push(
+    new HtmlWebpackPlugin({
+      lang: PAGE_LANG,
+      title: `${NODE_ENV !== 'production' ? `(dev) ${APP_TITLE}` : `${APP_TITLE}`}`,
+      filename: 'index.html',
+      favicon: `${assetsPath}/favicon.png`,
+      template: `${assetsPath}/index.html`,
+      chunksSortMode: 'dependency',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
+    })
+  );
+}
+
+const cssOptions = () => {
+  let options = {};
+
+  if (CSS_MODULES === true || CSS_MODULES === 'true') {
+    options = {
+      modules: true,
+      localIdentName: '[name]__[local]___[hash:base64:5]'
+    }
+  }
+
+  return options;
+}
 
 module.exports = {
   entry: {
@@ -49,27 +92,19 @@ module.exports = {
           use: [
             {
               loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]'
-              }
+              options: cssOptions()
             }
           ]
         })
       },
       {
-        test: /\.sss$/,
+        test: /\.styl$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]'
-              }
+              options: cssOptions()
             },
             {
               loader: 'postcss-loader',
@@ -77,6 +112,12 @@ module.exports = {
                 config: {
                   path: rootPath + '/config/postcss.config.js'
                 }
+              }
+            },
+            {
+              loader: 'stylus-loader',
+              options: {
+                sourceMap: false
               }
             }
           ]
@@ -128,26 +169,7 @@ module.exports = {
       root: rootPath
     }),
 
-    new HtmlWebpackPlugin({
-      lang: PAGE_LANG,
-      title: `${NODE_ENV !== 'production' ? `(dev) ${APP_TITLE}` : `${APP_TITLE}`}`,
-      filename: 'index.html',
-      favicon: `${assetsPath}/favicon.png`,
-      template: `${assetsPath}/index.html`,
-      chunksSortMode: 'dependency',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-      }
-    }),
+    ...variablePlugins,
 
     new ExtractTextPlugin({
       filename: 'css/[name].css'
