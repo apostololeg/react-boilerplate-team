@@ -5,7 +5,7 @@ const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV;
 
 // Flag determining whether to use html
-const USE_HTML = (env.USE_HTML || true);
+const USE_HTML = env.USE_HTML || true;
 
 // Application title
 const APP_TITLE = env.APP_TITLE || 'React boilerplate';
@@ -26,13 +26,19 @@ const ASSETS_PATH = env.ASSETS_PATH || 'src/assets';
 const PAGE_LANG = env.PAGE_LANG || 'en';
 
 // The flag that determines whether to use the css modules
-const CSS_MODULES = env.CSS_MODULES || false;
+const USE_CSS_MODULES = env.USE_CSS_MODULES || false;
+
+// App entries
+const USE_MANY_ENTRIES = env.USE_MANY_ENTRIES || false;
+const ENTRIES_LIST = env.ENTRIES_LIST.match(/\w+/gi) || [];
 
 /**
  * Application server options
  */
 const HOST = env.HOST || 'localhost';
 const PORT = env.PORT || 9000;
+
+console.log(env);
 
 module.exports = {
   NODE_ENV,
@@ -42,7 +48,9 @@ module.exports = {
   BUILD_PATH,
   SOURCE_PATH,
   ASSETS_PATH,
-  CSS_MODULES,
+  USE_CSS_MODULES,
+  USE_MANY_ENTRIES,
+  ENTRIES_LIST,
   PAGE_LANG,
   HOST,
   PORT

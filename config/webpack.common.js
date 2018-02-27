@@ -5,7 +5,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const {
   NODE_ENV,
   USE_HTML,
-  CSS_MODULES
+  USE_MANY_ENTRIES,
+  USE_CSS_MODULES,
 } = require('./tools/constants');
 
 const {
@@ -49,7 +50,7 @@ if (USE_HTML === 'true' || USE_HTML === true) {
 const cssOptions = () => {
   let options = {};
 
-  if (CSS_MODULES === true || CSS_MODULES === 'true') {
+  if (USE_CSS_MODULES === true || USE_CSS_MODULES === 'true') {
     options = {
       modules: true,
       localIdentName: '[name]__[local]___[hash:base64:5]'
@@ -59,10 +60,30 @@ const cssOptions = () => {
   return options;
 }
 
-module.exports = {
-  entry: {
+const entryOptions = () => {
+  const defaultEntry = {
     app: `${projectPath}/index.js`
-  },
+  };
+
+  if (USE_MANY_ENTRIES === true || USE_MANY_ENTRIES === 'true') {
+    const { ENTRIES_LIST } = require('./tools/constants');
+    const entries = {};
+
+    // If empty list return default entry
+    if (ENTRIES_LIST.length == 0) return defaultEntry;
+
+    for (let entry of ENTRIES_LIST) {
+      entries[entry] = `${projectPath}/${entry}App.js`
+    }
+
+    return entries;
+  } else {
+    return defaultEntry;
+  }
+}
+
+module.exports = {
+  entry: entryOptions(),
 
   output: {
     path: buildPath,
