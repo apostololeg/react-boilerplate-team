@@ -29,8 +29,7 @@ const PAGE_LANG = env.PAGE_LANG || 'en';
 const USE_CSS_MODULES = env.USE_CSS_MODULES || false;
 
 // App entries
-const USE_MANY_ENTRIES = env.USE_MANY_ENTRIES || false;
-const ENTRIES_LIST = env.ENTRIES_LIST.match(/\w+/gi) || [];
+const USE_MANY_ENTRIES = env.USE_MANY_ENTRIES === 'true';
 
 /**
  * Application server options

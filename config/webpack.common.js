@@ -1,12 +1,14 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const fs = require('fs')
 
 const {
   NODE_ENV,
   USE_HTML,
   USE_MANY_ENTRIES,
   USE_CSS_MODULES,
+  ENTRIES_LIST
 } = require('./tools/constants');
 
 const {
@@ -61,25 +63,27 @@ const cssOptions = () => {
 }
 
 const entryOptions = () => {
-  const defaultEntry = {
+  const entries = {};
+  const defaultEntries = {
     app: `${projectPath}/index.js`
-  };
-
-  if (USE_MANY_ENTRIES === true || USE_MANY_ENTRIES === 'true') {
-    const { ENTRIES_LIST } = require('./tools/constants');
-    const entries = {};
-
-    // If empty list return default entry
-    if (ENTRIES_LIST.length == 0) return defaultEntry;
-
-    for (let entry of ENTRIES_LIST) {
-      entries[entry] = `${projectPath}/${entry}App.js`
-    }
-
-    return entries;
-  } else {
-    return defaultEntry;
   }
+
+  if (!USE_MANY_ENTRIES || ENTRIES_LIST.length === 0) {
+    return defaultEntries
+  }
+
+
+  fs.readdirSync(`${__dirname}/src/entries`).forEach(file => {
+    let [name, ext] = file.slit('.')
+
+    if (ext === 'js') {
+      entries[name] = file
+    }
+  })
+
+  return Object.keys(entries).length === 0
+    ? defaultEntries
+    : entries;
 }
 
 module.exports = {
