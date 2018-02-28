@@ -7,8 +7,7 @@ const {
   NODE_ENV,
   USE_HTML,
   USE_MANY_ENTRIES,
-  USE_CSS_MODULES,
-  ENTRIES_LIST
+  USE_CSS_MODULES
 } = require('./tools/constants');
 
 const {
@@ -18,10 +17,12 @@ const {
   rootPath
 } = require('./tools/paths');
 
+const entries = require('./tools/entries-list');
+
 // Castomize plugins
 const variablePlugins = [];
 
-if (USE_HTML === 'true' || USE_HTML === true) {
+if (USE_HTML) {
   const { APP_TITLE, PAGE_LANG } = require('./tools/constants');
   const { assetsPath } = require('./tools/paths');
 
@@ -52,7 +53,7 @@ if (USE_HTML === 'true' || USE_HTML === true) {
 const cssOptions = () => {
   let options = {};
 
-  if (USE_CSS_MODULES === true || USE_CSS_MODULES === 'true') {
+  if (USE_CSS_MODULES) {
     options = {
       modules: true,
       localIdentName: '[name]__[local]___[hash:base64:5]'
@@ -63,23 +64,13 @@ const cssOptions = () => {
 }
 
 const entryOptions = () => {
-  const entries = {};
   const defaultEntries = {
     app: `${projectPath}/index.js`
   }
 
-  if (!USE_MANY_ENTRIES || ENTRIES_LIST.length === 0) {
-    return defaultEntries
+  if (!USE_MANY_ENTRIES) {
+    return defaultEntries;
   }
-
-
-  fs.readdirSync(`${__dirname}/src/entries`).forEach(file => {
-    let [name, ext] = file.slit('.')
-
-    if (ext === 'js') {
-      entries[name] = file
-    }
-  })
 
   return Object.keys(entries).length === 0
     ? defaultEntries

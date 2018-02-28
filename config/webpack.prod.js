@@ -1,7 +1,22 @@
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const commonConfig = require('./webpack.common');
-const { APP_TITLE } = require('./tools/constants');
+const { USE_HTML } = require('./tools/constants');
+
+// Castomize plugins
+const variablePlugins = [];
+
+if (USE_HTML) {
+  const { APP_TITLE } = require('./tools/constants');
+
+  variablePlugins.push(
+    new ManifestPlugin({
+      seed: {
+        name: APP_TITLE
+      }
+    })
+  );
+}
 
 module.exports = {
   ...commonConfig,
@@ -41,10 +56,6 @@ module.exports = {
       }
     }),
 
-    new ManifestPlugin({
-      seed: {
-        name: APP_TITLE
-      }
-    })
+    ...variablePlugins
   ]
 };
