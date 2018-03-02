@@ -4,7 +4,8 @@ const {
   APP_PATH,
   BUILD_PATH,
   SOURCE_PATH,
-  ASSETS_PATH
+  ASSETS_PATH,
+  ENTRIES_PATH
 } = require('./constants');
 
 function resolvePath(relativePath) {
@@ -17,5 +18,5 @@ module.exports = {
   modulesPath: resolvePath('node_modules'),
   buildPath:   resolvePath(BUILD_PATH),
   assetsPath:  resolvePath(ASSETS_PATH),
-  entriesPath: resolvePath('entries')
+  entriesPath: resolvePath(ENTRIES_PATH)
 };

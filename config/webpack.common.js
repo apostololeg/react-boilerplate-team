@@ -1,7 +1,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const fs = require('fs')
+const { readdirSync, existsSync } = require('fs');
 
 const {
   NODE_ENV,
@@ -14,10 +14,11 @@ const {
   projectPath,
   modulesPath,
   buildPath,
-  rootPath
+  rootPath,
+  entriesPath
 } = require('./tools/paths');
 
-const entries = require('./tools/entries-list');
+// const entries = require('./tools/entries-list');
 
 // Castomize plugins
 const variablePlugins = [];
@@ -64,6 +65,7 @@ const cssOptions = () => {
 }
 
 const entryOptions = () => {
+  const entries = {};
   const defaultEntries = {
     app: `${projectPath}/index.js`
   }
@@ -71,6 +73,19 @@ const entryOptions = () => {
   if (!USE_MANY_ENTRIES) {
     return defaultEntries;
   }
+
+  console.log('entriesPath ----------------- ', entriesPath)
+  if (existsSync(entriesPath)) {
+    readdirSync(entriesPath).forEach(file => {
+      let [name, ext] = file.split('.')
+
+      if (ext === 'js') {
+        entries[name] = `${entriesPath}/${file}`
+      }
+    })
+  }
+
+  console.log(entries)
 
   return Object.keys(entries).length === 0
     ? defaultEntries

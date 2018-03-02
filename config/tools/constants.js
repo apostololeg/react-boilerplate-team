@@ -30,6 +30,7 @@ const USE_CSS_MODULES = env.USE_CSS_MODULES === 'true';
 
 // App entries
 const USE_MANY_ENTRIES = env.USE_MANY_ENTRIES === 'true';
+const ENTRIES_PATH = `${SOURCE_PATH}/entries`
 
 /**
  * Application server options
@@ -47,6 +48,7 @@ module.exports = {
   BUILD_PATH,
   SOURCE_PATH,
   ASSETS_PATH,
+  ENTRIES_PATH,
   USE_CSS_MODULES,
   USE_MANY_ENTRIES,
   PAGE_LANG,

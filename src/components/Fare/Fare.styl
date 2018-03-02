@@ -1,0 +1,58 @@
+.Fare
+    display flex
+    background-color #f0f0f0
+    flex-direction column
+    width 250px
+
+    &__header
+    &__descrition
+        padding 40px
+
+    &__header
+        color #fff
+        text-align center
+        background-color #333
+
+    &__title
+        padding-bottom 20px
+        font-weight 700
+
+    &__price
+        position relative
+        font-size 180%
+        padding-top 20px
+
+        &:before
+            content ''
+            position absolute
+            top 0
+            left 0
+            width 100%
+            height 1px
+            background-image linear-gradient(to right, transparent 0%, rgba(255,255,255,.6) 50%, transparent 100%)
+
+    &__descrition
+        min-height 200px
+        text-align center
+        color rgba(0,0,0,.6)
+
+        &-item
+            padding 5px 0
+
+    &__button
+        appearance none
+        margin 0 auto
+        margin-bottom 40px
+        padding 20px
+        border 0
+        background-color #2189db
+        color #fff
+        cursor pointer
+        transition .1s ease-out
+        transition-property transform, background-color
+        outline none
+        font-size 100%
+
+        &:active
+            transform scale(0.95)
+
