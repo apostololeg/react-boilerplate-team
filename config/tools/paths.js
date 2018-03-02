@@ -17,5 +17,5 @@ module.exports = {
   modulesPath: resolvePath('node_modules'),
   buildPath:   resolvePath(BUILD_PATH),
   assetsPath:  resolvePath(ASSETS_PATH),
-  entriesPath: resolvePath('entries')
+  entriesPath: resolvePath(`${SOURCE_PATH}/entries`)
 };

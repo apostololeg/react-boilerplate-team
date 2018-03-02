@@ -1,7 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const fs = require('fs')
 
 const {
   NODE_ENV,
@@ -64,17 +63,13 @@ const cssOptions = () => {
 }
 
 const entryOptions = () => {
-  const defaultEntries = {
+  if (USE_MANY_ENTRIES && Object.keys(entries).length > 0) {
+    return entries;
+  }
+
+  return {
     app: `${projectPath}/index.js`
-  }
-
-  if (!USE_MANY_ENTRIES) {
-    return defaultEntries;
-  }
-
-  return Object.keys(entries).length === 0
-    ? defaultEntries
-    : entries;
+  };
 }
 
 module.exports = {

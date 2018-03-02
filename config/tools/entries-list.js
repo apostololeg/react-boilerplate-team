@@ -5,10 +5,10 @@ let entries = {};
 
 if ( existsSync(entriesPath) ) {
   readdirSync(entriesPath).forEach(file => {
-    let [ name, ext ] = file.slit('.');
+    let [ name, ext ] = file.split('.');
 
     if (ext === 'js' || ext === 'jsx') {
-      entries[name] = file;
+      entries[name] = `${entriesPath}/${file}`;
     }
   });
 }
